@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta – Dra. Diana Suárez</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8D08A;
+    --sand: #CCB69F;
+    --sand-light: #E8D8C8;
+    --sand-pale: #F5EDE4;
+    --black: #0a0a0a;
+    --black-soft: #1a1a1a;
+    --white: #FFFFFF;
+    --gray: #666;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--sand-pale); font-family: 'Montserrat', sans-serif; color: var(--black); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 40px;
+    background: rgba(245,237,228,0.96); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--sand-light);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 0.85rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-size: 0.63rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); text-decoration: none; cursor: pointer; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); }
+
+  .slide { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 90px 40px 60px; opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .slide.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── HERO ── */
+  #slide-1 { background: var(--white); position: relative; overflow: hidden; }
+  .hero-stripe { position: absolute; top: 0; left: 0; bottom: 0; width: 340px; background: var(--sand); clip-path: polygon(0 0, 85% 0, 100% 100%, 0% 100%); }
+  .hero-stripe-inner { position: absolute; top: 0; left: 0; bottom: 0; width: 260px; background: var(--sand-light); clip-path: polygon(0 0, 80% 0, 100% 100%, 0% 100%); opacity: 0.6; }
+  .hero-bg-text { position: absolute; right: -10px; bottom: -20px; font-family: 'Playfair Display', serif; font-size: clamp(9rem, 20vw, 20rem); color: rgba(204,182,159,0.15); font-weight: 700; line-height: 1; pointer-events: none; }
+  .hero-content { position: relative; z-index: 2; max-width: 700px; display: grid; grid-template-columns: 1fr; }
+  .hero-tag { display: inline-block; font-size: 0.58rem; letter-spacing: 4px; text-transform: uppercase; color: var(--black-soft); border: 1px solid var(--sand); background: var(--sand-pale); padding: 6px 14px; margin-bottom: 28px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.6rem, 6vw, 5rem); color: var(--black); line-height: 1.03; margin-bottom: 6px; }
+  .hero-title span { color: var(--gold); font-style: italic; }
+  .hero-subtitle { font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); margin-bottom: 26px; margin-top: 8px; }
+  .hero-desc { font-size: 0.93rem; color: #555; line-height: 1.85; max-width: 480px; margin-bottom: 40px; }
+  .hero-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--black); color: var(--white); font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; padding: 15px 28px; cursor: pointer; transition: background 0.2s, transform 0.2s; border: none; }
+  .hero-cta:hover { background: var(--black-soft); transform: translateX(4px); }
+  .hero-accent-dot { position: absolute; top: 40px; right: 60px; width: 180px; height: 180px; border-radius: 50%; background: var(--sand-light); opacity: 0.5; z-index: 1; }
+  .hero-accent-dot2 { position: absolute; top: 100px; right: 120px; width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--gold); opacity: 0.3; z-index: 1; }
+
+  .section-label { font-size: 0.58rem; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 3rem); color: var(--black); line-height: 1.12; margin-bottom: 20px; }
+  .section-title.light { color: var(--white); }
+  .gold-line { width: 40px; height: 2px; background: var(--gold); margin-bottom: 28px; }
+
+  /* ── PROBLEMA ── */
+  #slide-2 { background: var(--sand-pale); }
+  .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; max-width: 1020px; width: 100%; align-items: start; }
+  .pain-list { list-style: none; }
+  .pain-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.84rem; color: #444; padding: 13px 0; border-bottom: 1px solid var(--sand-light); line-height: 1.65; }
+  .pain-icon { min-width: 30px; height: 30px; background: var(--sand-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; flex-shrink: 0; margin-top: 1px; }
+  .sev { display: inline-block; font-size: 0.52rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; margin-left: 6px; font-weight: 700; vertical-align: middle; }
+  .sev-high { background: #fee; color: #c0392b; }
+  .sev-mid { background: #fef8e7; color: #856404; }
+
+  .have-card { background: var(--white); border: 1px solid var(--sand-light); padding: 24px; margin-bottom: 16px; }
+  .have-title { font-size: 0.56rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  .have-row { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; color: #444; padding: 5px 0; }
+  .have-row .ck { color: #27ae60; font-weight: 700; }
+  .lack-card { background: var(--black); padding: 24px; }
+  .lack-title { font-size: 0.56rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold-light); margin-bottom: 14px; }
+  .lack-row { display: flex; align-items: flex-start; gap: 10px; font-size: 0.8rem; color: rgba(255,255,255,0.55); padding: 5px 0; line-height: 1.5; }
+  .lack-note { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(201,168,76,0.25); font-size: 0.78rem; color: var(--gold); font-style: italic; line-height: 1.6; }
+
+  /* ── SOLUCIÓN ── */
+  #slide-3 { background: var(--sand); }
+  .solution-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; max-width: 1020px; width: 100%; }
+  .sol-card { background: var(--white); border: none; padding: 26px 20px; transition: transform 0.25s, box-shadow 0.25s; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .sol-card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
+  .sol-icon { font-size: 1.8rem; margin-bottom: 14px; }
+  .sol-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--black); margin-bottom: 8px; }
+  .sol-desc { font-size: 0.78rem; color: #555; line-height: 1.8; }
+  .sol-tag { display: inline-block; font-size: 0.52rem; letter-spacing: 1.5px; text-transform: uppercase; background: var(--sand-pale); color: var(--gold); padding: 3px 9px; margin-top: 10px; border: 1px solid var(--sand-light); }
+
+  /* ── COMPARACIÓN ── */
+  #slide-4 { background: var(--white); }
+  .compare-wrap { max-width: 960px; width: 100%; }
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .compare-table th { padding: 13px 18px; text-align: left; font-size: 0.58rem; letter-spacing: 2.5px; text-transform: uppercase; }
+  .compare-table th.col-label { color: #888; background: var(--sand-pale); }
+  .compare-table th.col-now { background: #2a0808; color: #e88; text-align: center; }
+  .compare-table th.col-after { background: var(--black); color: var(--gold); text-align: center; }
+  .compare-table td { padding: 13px 18px; border-bottom: 1px solid var(--sand-light); vertical-align: middle; color: #333; }
+  .compare-table td.col-now { background: #fff5f5; text-align: center; color: #c0392b; font-size: 0.78rem; }
+  .compare-table td.col-after { background: var(--sand-pale); text-align: center; color: #1a5c2a; font-size: 0.78rem; font-weight: 600; }
+  .compare-table tr:last-child td { border-bottom: none; }
+
+  /* ── PLAN ── */
+  #slide-5 { background: var(--sand-pale); }
+  .proposal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1020px; width: 100%; }
+  .proposal-phase { background: var(--white); border-top: 3px solid var(--gold); padding: 28px 24px; position: relative; box-shadow: 0 2px 16px rgba(0,0,0,0.06); transition: box-shadow 0.3s, transform 0.3s; }
+  .proposal-phase:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); transform: translateY(-3px); }
+  .phase-num { font-family: 'Playfair Display', serif; font-size: 4rem; color: rgba(204,182,159,0.35); position: absolute; top: 8px; right: 16px; font-weight: 700; line-height: 1; }
+  .phase-tag { font-size: 0.56rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .phase-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--black); margin-bottom: 14px; }
+  .phase-items { list-style: none; }
+  .phase-items li { font-size: 0.78rem; color: #555; padding: 5px 0; border-bottom: 1px solid var(--sand-light); display: flex; align-items: flex-start; gap: 8px; line-height: 1.55; }
+  .phase-items li::before { content: '—'; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+
+  /* ── CIERRE ── */
+  #slide-6 { background: var(--sand); flex-direction: column; text-align: center; }
+  .close-orn { font-family: 'Playfair Display', serif; font-size: 4rem; color: rgba(255,255,255,0.4); margin-bottom: 12px; }
+  .close-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.8rem); color: var(--black); margin-bottom: 12px; }
+  .close-sub { font-size: 0.68rem; letter-spacing: 3px; text-transform: uppercase; color: var(--black-soft); opacity: 0.6; margin-bottom: 28px; }
+  .close-body { max-width: 520px; margin: 0 auto 36px; font-size: 0.9rem; color: #333; line-height: 1.9; }
+  .btn-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px; }
+  .btn-wa { display: inline-flex; align-items: center; gap: 9px; background: #25D366; color: white; text-decoration: none; padding: 14px 26px; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; transition: opacity 0.2s; }
+  .btn-wa:hover { opacity: 0.85; }
+  .btn-port { display: inline-flex; align-items: center; gap: 9px; background: var(--black); color: var(--gold); text-decoration: none; padding: 14px 26px; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; transition: opacity 0.2s; }
+  .btn-port:hover { opacity: 0.8; }
+  .close-quote { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-style: italic; color: rgba(0,0,0,0.45); max-width: 480px; margin: 0 auto; padding-top: 28px; border-top: 1px solid rgba(0,0,0,0.12); }
+
+  .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--gold); z-index: 200; transition: width 0.3s; }
+  .slide-counter { position: fixed; right: 20px; bottom: 24px; font-size: 0.58rem; letter-spacing: 2px; color: var(--gray); z-index: 100; }
+
+  @media (max-width: 700px) {
+    nav { padding: 14px 16px; }
+    .nav-links { display: none; }
+    .slide { padding: 76px 16px 44px; min-height: auto; }
+    .problem-grid { grid-template-columns: 1fr; gap: 20px; }
+    .solution-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .proposal-grid { grid-template-columns: 1fr; gap: 14px; }
+    .hero-stripe { width: 200px; }
+    .hero-bg-text { display: none; }
+    .hero-accent-dot, .hero-accent-dot2 { display: none; }
+    .compare-table { font-size: 0.72rem; }
+    .compare-table td, .compare-table th { padding: 9px 8px; }
+    .btn-row { flex-direction: column; align-items: center; }
+    .btn-wa, .btn-port { width: 100%; max-width: 300px; justify-content: center; }
+  }
+  @media (max-width: 400px) {
+    .solution-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+
+<nav>
+  <div class="nav-logo">Propuesta Digital</div>
+  <div class="nav-links">
+    <a onclick="goTo('slide-1')">Inicio</a>
+    <a onclick="goTo('slide-2')">Problema</a>
+    <a onclick="goTo('slide-3')">Solución</a>
+    <a onclick="goTo('slide-4')">Comparación</a>
+    <a onclick="goTo('slide-5')">Plan</a>
+    <a onclick="goTo('slide-6')">Hablemos</a>
+  </div>
+</nav>
+
+<!-- SLIDE 1 -->
+<section class="slide" id="slide-1">
+  <div class="hero-stripe"></div>
+  <div class="hero-stripe-inner"></div>
+  <div class="hero-accent-dot"></div>
+  <div class="hero-accent-dot2"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Propuesta de Digitalización · 2026</div>
+    <h1 class="hero-title">Dra. <span>Diana Suárez</span><br>Odontología</h1>
+    <div class="hero-subtitle">Calle 7 # 6-21 · Villa del Rosario · Norte de Santander</div>
+    <p class="hero-desc">Una especialista en odontología estética, armonización orofacial, bótox e hilos tensores con 4.621 seguidores — invisible en Google y sin catálogo digital. Esta propuesta cambia eso.</p>
+    <button class="hero-cta" onclick="goTo('slide-2')">Ver la propuesta →</button>
+  </div>
+  <div class="hero-bg-text">DS</div>
+</section>
+
+<!-- SLIDE 2 -->
+<section class="slide" id="slide-2">
+  <div class="problem-grid">
+    <div>
+      <div class="section-label">Lo que encontré</div>
+      <h2 class="section-title">Puntos de fricción que frenan pacientes nuevos</h2>
+      <div class="gold-line"></div>
+      <p style="font-size:0.83rem;color:#555;line-height:1.8;margin-bottom:18px;">Investigué su presencia digital antes de esta reunión. Esto es lo que encontré como paciente potencial.</p>
+      <ul class="pain-list">
+        <li><div class="pain-icon">🗺️</div><span><strong>Sin ficha en Google Maps</strong><span class="sev sev-high">Crítico</span> — buscar "odontología Villa del Rosario" y no encontrarlas es perder pacientes todos los días</span></li>
+        <li><div class="pain-icon">📍</div><span><strong>Ubicación en WhatsApp apunta a un área general</strong><span class="sev sev-high">Crítico</span> — un paciente nuevo no puede llegar exactamente al consultorio</span></li>
+        <li><div class="pain-icon">💬</div><span><strong>El link de Instagram llega a WhatsApp sin bienvenida</strong><span class="sev sev-mid">Importante</span> — quien viene de Instagram queda en el chat sin ninguna orientación</span></li>
+        <li><div class="pain-icon">🖼️</div><span><strong>Catálogo de WhatsApp Business con solo una foto del local</strong><span class="sev sev-mid">Importante</span> — sin servicios, sin precios, sin información útil</span></li>
+        <li><div class="pain-icon">🤖</div><span><strong>Al preguntar por servicios la respuesta fue evasiva</strong><span class="sev sev-mid">Importante</span> — en lugar de informar, le pidieron al paciente que especificara qué quería saber</span></li>
+      </ul>
+    </div>
+    <div>
+      <div class="have-card">
+        <div class="have-title">Lo que sí tienen ✓</div>
+        <div class="have-row"><span class="ck">✓</span> 4.621 seguidores en Instagram</div>
+        <div class="have-row"><span class="ck">✓</span> WhatsApp Business con respuesta automática</div>
+        <div class="have-row"><span class="ck">✓</span> Especialidades de alto valor: bótox, hilos, ácido hialurónico</div>
+        <div class="have-row"><span class="ck">✓</span> Local propio en el centro de Villa del Rosario</div>
+        <div class="have-row"><span class="ck">✓</span> Nombre de marca consolidado en la zona</div>
+      </div>
+      <div class="lack-card">
+        <div class="lack-title">El problema de fondo</div>
+        <p style="font-size:0.8rem;color:rgba(255,255,255,0.55);line-height:1.8;margin-bottom:12px;">Un paciente que llega por Instagram no encuentra precios, no sabe qué servicios existen, no puede llegar fácil al consultorio y si pregunta le responden de forma confusa. La mayoría abandona antes de agendar.</p>
+        <div class="lack-note">Cada paciente que abandona es un procedimiento de $300k–$800k que no se realizó.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3 -->
+<section class="slide" id="slide-3">
+  <div style="max-width:1020px;width:100%;">
+    <div class="section-label">La solución</div>
+    <h2 class="section-title">Eliminar cada punto de fricción</h2>
+    <div class="gold-line"></div>
+    <div class="solution-grid">
+      <div class="sol-card"><div class="sol-icon">📍</div><div class="sol-title">Google Maps</div><div class="sol-desc">Registro completo en Google Business Profile con dirección exacta (Calle 7 # 6-21), fotos y especialidades.</div><div class="sol-tag">Prioridad #1 · Gratis</div></div>
+      <div class="sol-card"><div class="sol-icon">🌐</div><div class="sol-title">Sitio Web</div><div class="sol-desc">Catálogo de servicios con precios y galería de resultados. Optimizado para celular.</div><div class="sol-tag">Alto impacto</div></div>
+      <div class="sol-card"><div class="sol-icon">🔗</div><div class="sol-title">Link en Bio</div><div class="sol-desc">Página de aterrizaje para Instagram con servicios, galería y botón de WhatsApp para agendar.</div><div class="sol-tag">Convierte los 4.621 seguidores</div></div>
+      <div class="sol-card"><div class="sol-icon">💬</div><div class="sol-title">Bot de WhatsApp</div><div class="sol-desc">Mensaje de bienvenida con menú de servicios y precios — sin responder preguntas básicas a mano.</div><div class="sol-tag">Menos fricción</div></div>
+      <div class="sol-card"><div class="sol-icon">📅</div><div class="sol-title">Agendamiento</div><div class="sol-desc">Sistema de citas en línea con calendario real y confirmación automática al paciente.</div><div class="sol-tag">Ahorra tiempo</div></div>
+      <div class="sol-card"><div class="sol-icon">🦷</div><div class="sol-title">Catálogo WhatsApp</div><div class="sol-desc">Configuración del catálogo de WhatsApp Business con fotos reales, descripciones y precios.</div><div class="sol-tag">Usa lo que ya tienen</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4 -->
+<section class="slide" id="slide-4">
+  <div class="compare-wrap">
+    <div class="section-label">Antes y después</div>
+    <h2 class="section-title">Lo que cambia con cada mejora</h2>
+    <div class="gold-line"></div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th class="col-label">Situación</th>
+          <th class="col-now">Hoy ✗</th>
+          <th class="col-after">Con la propuesta ✓</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Alguien busca "odontología estética Villa del Rosario"</td><td class="col-now">✗ No aparecen</td><td class="col-after">✓ Primera página en Google</td></tr>
+        <tr><td>Un seguidor de Instagram pregunta por servicios</td><td class="col-now">✗ Sin catálogo, respuesta evasiva</td><td class="col-after">✓ Link en bio con servicios y precios</td></tr>
+        <tr><td>Un paciente llega por WhatsApp desde Instagram</td><td class="col-now">✗ Sin bienvenida ni menú</td><td class="col-after">✓ Bot con menú y opción de agendar</td></tr>
+        <tr><td>Un paciente quiere saber cómo llegar</td><td class="col-now">✗ Apunta a un área general</td><td class="col-after">✓ Dirección exacta con mapa</td></tr>
+        <tr><td>Un paciente quiere agendar una cita</td><td class="col-now">✗ Escribe y espera respuesta manual</td><td class="col-after">✓ Escoge fecha y hora en línea</td></tr>
+        <tr><td>Alguien abre el catálogo de WhatsApp Business</td><td class="col-now">✗ Solo una foto del local</td><td class="col-after">✓ Servicios con fotos y precios</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SLIDE 5 -->
+<section class="slide" id="slide-5">
+  <div style="max-width:1020px;width:100%;">
+    <div class="section-label">El plan de trabajo</div>
+    <h2 class="section-title">Por etapas, empezando por lo urgente</h2>
+    <div class="gold-line"></div>
+    <div class="proposal-grid">
+      <div class="proposal-phase"><div class="phase-num">01</div><div class="phase-tag">Inmediato · Sin costo</div><div class="phase-title">Google Maps + Ubicación</div><ul class="phase-items"><li>Registro en Google Business (Calle 7 # 6-21)</li><li>Fotos del consultorio, horarios y especialidades</li><li>Corrección de ubicación en WhatsApp Business</li><li>Visible en Google en 1–3 días</li></ul></div>
+      <div class="proposal-phase"><div class="phase-num">02</div><div class="phase-tag">Semana 1 · Rápido impacto</div><div class="phase-title">WhatsApp Business Mejorado</div><ul class="phase-items"><li>Mensaje de bienvenida con menú de servicios</li><li>Catálogo con fotos reales de los tratamientos</li><li>Respuestas rápidas a preguntas frecuentes</li><li>Mejora lo que ya tienen, sin sistemas nuevos</li></ul></div>
+      <div class="proposal-phase"><div class="phase-num">03</div><div class="phase-tag">Semana 2–3</div><div class="phase-title">Sitio Web + Link en Bio</div><ul class="phase-items"><li>Catálogo completo de servicios y precios</li><li>Galería de resultados antes/después</li><li>Optimizado para celular</li><li>Link en bio listo para Instagram</li></ul></div>
+      <div class="proposal-phase"><div class="phase-num">04</div><div class="phase-tag">Semana 4</div><div class="phase-title">Agendamiento en Línea</div><ul class="phase-items"><li>Calendario de citas integrado al sitio</li><li>Confirmación automática al paciente</li><li>Recordatorio 24h antes de cada cita</li><li>Panel de administración para el consultorio</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6 -->
+<section class="slide" id="slide-6">
+  <div class="close-orn">✦</div>
+  <h2 class="close-title">¿Arrancamos?</h2>
+  <div class="close-sub">Dra. Diana Suárez · Odontología Estética · Villa del Rosario</div>
+  <p class="close-body">El consultorio ya tiene los ingredientes — especialidades de alto valor, seguidores en Instagram y presencia en WhatsApp. Lo que falta es conectar esos puntos para que un paciente que la encuentre hoy pueda agendar hoy.</p>
+  <div class="btn-row">
+    <a class="btn-wa" href="https://wa.me/573182010789?text=Hola%2C%20vi%20tu%20propuesta%20y%20me%20interesa%20hablar" target="_blank">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Escribir por WhatsApp
+    </a>
+    <a class="btn-port" href="https://dg18.netlify.app" target="_blank">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Ver mi portafolio
+    </a>
+  </div>
+  <p class="close-quote">Cada día sin Google Maps es un paciente que encontró a otro especialista primero.</p>
+</section>
+
+<div class="slide-counter" id="counter">01 / 06</div>
+
+<script>
+  function goTo(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+  const slides = document.querySelectorAll('.slide');
+  const progress = document.getElementById('progress');
+  const counter = document.getElementById('counter');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        const idx = Array.from(slides).indexOf(entry.target) + 1;
+        counter.textContent = String(idx).padStart(2,'0') + ' / 06';
+        progress.style.width = (idx / slides.length * 100) + '%';
+      }
+    });
+  }, { threshold: 0.25 });
+  slides.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
